@@ -1,0 +1,47 @@
+# Given data
+X <- c(1, 0, 2, 0, 3, 1, 0, 1, 2, 0)
+Y <- c(16, 9, 17, 12, 22, 13, 8, 15, 19, 11)
+
+# Fit a linear regression model
+model <- lm(Y ~ X)
+
+# Summary of the model
+summary(model)
+
+# Extract coefficients
+b0 <- coef(model)[1]
+b1 <- coef(model)[2]
+
+# Create a scatter plot
+plot(X, Y, main = "Regression Line Fit", xlab = "X (Transfers)", ylab = "Y (Broken Ampules)")
+
+# Add the regression line to the plot with a legend
+abline(model, col = "red")
+legend("topleft", legend = paste("Regression Line: Y =", round(b0, 2), "+", round(b1, 2), "X"), col = "red", lty = 1)
+
+# Obtain a point estimate when X = 1 transfer is made
+X_value <- 1
+expected_Y <- b0 + b1 * X_value
+cat("Point estimate of the expected number of broken ampules when X = 1 transfer is made:", expected_Y, "\n")
+
+# Estimate the increase in the expected number of ampules broken when there are 2 transfers compared to 1 transfer
+X_value_1 <- 1
+X_value_2 <- 2
+expected_Y_1 <- b0 + b1 * X_value_1
+expected_Y_2 <- b0 + b1 * X_value_2
+increase <- expected_Y_2 - expected_Y_1
+cat("Estimated increase in the expected number of ampules broken when there are 2 transfers compared to 1 transfer:", increase, "\n")
+
+# Calculate mean of X (X_bar) and mean of Y (Y_bar)
+X_bar <- mean(X)
+Y_bar <- mean(Y)
+
+# Verify if the fitted regression line passes through (X_bar, Y_bar)
+expected_Y_bar <- b0 + b1 * X_bar
+
+# Check if expected_Y_bar is approximately equal to Y_bar
+if (abs(expected_Y_bar - Y_bar) < 0.01) {
+  cat("The fitted regression line goes through the point (X_bar, Y_bar).\n")
+} else {
+  cat("The fitted regression line does not go through the point (X_bar, Y_bar).\n")
+}
